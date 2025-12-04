@@ -1,0 +1,5 @@
+# Models Directory
+
+This directory contains TensorFlow Lite models for AI food recognition.
+
+Place your .tflite model files here.

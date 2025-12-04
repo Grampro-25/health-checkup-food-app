@@ -1,0 +1,3 @@
+# Add a placeholder file for Google Services
+# Download your actual GoogleService-Info.plist from Firebase Console
+# and replace this file
