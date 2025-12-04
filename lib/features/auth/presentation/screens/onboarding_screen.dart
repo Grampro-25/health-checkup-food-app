@@ -16,25 +16,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<OnboardingPage> _pages = [
     OnboardingPage(
       title: 'Scan & Analyze Food',
-      description: 'Use AI to detect ingredients, check nutrition, and get health scores for any food item.',
+      description:
+          'Use AI to detect ingredients, check nutrition, and get health scores for any food item.',
       icon: Icons.camera_alt,
       color: const Color(0xFF4CAF50),
     ),
     OnboardingPage(
       title: 'Allergy Alerts',
-      description: 'Get instant notifications if scanned foods contain your allergens. Stay safe!',
+      description:
+          'Get instant notifications if scanned foods contain your allergens. Stay safe!',
       icon: Icons.warning_amber_rounded,
       color: const Color(0xFFFF9800),
     ),
     OnboardingPage(
       title: 'Medication Reminders',
-      description: 'Never miss a pill! Schedule reminders and track your medication history.',
+      description:
+          'Never miss a pill! Schedule reminders and track your medication history.',
       icon: Icons.medication,
       color: const Color(0xFF2196F3),
     ),
     OnboardingPage(
       title: 'Fitness Tracking',
-      description: 'Get personalized workout plans and track your daily fitness goals.',
+      description:
+          'Get personalized workout plans and track your daily fitness goals.',
       icon: Icons.fitness_center,
       color: const Color(0xFF9C27B0),
     ),
@@ -123,7 +127,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               width: 200,
               height: 200,
               decoration: BoxDecoration(
-                color: page.color.withOpacity(0.1),
+                color: page.color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(

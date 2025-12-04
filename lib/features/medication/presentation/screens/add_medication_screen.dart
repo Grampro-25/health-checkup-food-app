@@ -13,7 +13,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   final _nameController = TextEditingController();
   final _dosageController = TextEditingController();
   final _instructionsController = TextEditingController();
-  
+
   String _frequency = 'Once daily';
   final List<TimeOfDay> _reminderTimes = [const TimeOfDay(hour: 9, minute: 0)];
 
@@ -61,18 +61,24 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
-                value: _frequency,
+                initialValue: _frequency,
                 decoration: const InputDecoration(
                   labelText: 'Frequency',
                   prefixIcon: Icon(Icons.repeat),
                 ),
                 items: const [
-                  DropdownMenuItem(value: 'Once daily', child: Text('Once daily')),
-                  DropdownMenuItem(value: 'Twice daily', child: Text('Twice daily')),
-                  DropdownMenuItem(value: 'Three times daily', child: Text('Three times daily')),
-                  DropdownMenuItem(value: 'Every other day', child: Text('Every other day')),
+                  DropdownMenuItem(
+                      value: 'Once daily', child: Text('Once daily')),
+                  DropdownMenuItem(
+                      value: 'Twice daily', child: Text('Twice daily')),
+                  DropdownMenuItem(
+                      value: 'Three times daily',
+                      child: Text('Three times daily')),
+                  DropdownMenuItem(
+                      value: 'Every other day', child: Text('Every other day')),
                   DropdownMenuItem(value: 'Weekly', child: Text('Weekly')),
-                  DropdownMenuItem(value: 'As needed', child: Text('As needed')),
+                  DropdownMenuItem(
+                      value: 'As needed', child: Text('As needed')),
                 ],
                 onChanged: (value) {
                   setState(() {

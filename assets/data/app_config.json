@@ -1,0 +1,36 @@
+{
+    "app": {
+        "name": "Health Check-Up Food App",
+        "version": "1.0.0",
+        "description": "AI-powered food analysis and health tracking"
+    },
+    "features": {
+        "food_analysis": true,
+        "allergy_detection": true,
+        "medication_reminders": true,
+        "fitness_tracking": true,
+        "dark_mode": true,
+        "notifications": true
+    },
+    "nutrition_goals": {
+        "daily_calories": 2000,
+        "protein_g": 150,
+        "carbs_g": 250,
+        "fat_g": 67,
+        "fiber_g": 25,
+        "sugar_g": 50
+    },
+    "reminder_settings": {
+        "medication_enabled": true,
+        "meal_reminders": true,
+        "water_reminders": true,
+        "exercise_reminders": true
+    },
+    "supported_languages": [
+        "en",
+        "es",
+        "fr",
+        "de"
+    ],
+    "default_theme": "system"
+}

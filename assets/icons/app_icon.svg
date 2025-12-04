@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#4CAF50" stroke="#2E7D32" stroke-width="16"/>
+
+  <!-- Heart shape for health theme -->
+  <path d="M256 180c-20-30-60-30-80 0s0 60 80 100c80-40 80-70 80-100s-60-30-80 0z" fill="#FFFFFF"/>
+
+  <!-- Plus sign -->
+  <rect x="240" y="220" width="32" height="120" fill="#4CAF50"/>
+  <rect x="220" y="240" width="72" height="32" fill="#4CAF50"/>
+</svg>

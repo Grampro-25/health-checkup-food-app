@@ -200,7 +200,7 @@ class DashboardTab extends StatelessWidget {
           Text(
             'Detect ingredients and determine if the food is healthy or unhealthy.',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
               fontSize: 14,
               height: 1.4,
             ),
@@ -265,7 +265,7 @@ class DashboardTab extends StatelessWidget {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.2),
+                color: iconColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -292,7 +292,7 @@ class DashboardTab extends StatelessWidget {
                   Text(
                     description,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withValues(alpha: 0.7),
                       fontSize: 13,
                       height: 1.3,
                     ),
@@ -405,7 +405,7 @@ class DashboardTab extends StatelessWidget {
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(

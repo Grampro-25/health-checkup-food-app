@@ -1,0 +1,68 @@
+[
+    {
+        "id": "apple",
+        "name": "Apple",
+        "category": "fruit",
+        "calories_per_100g": 52,
+        "protein_g": 0.2,
+        "carbs_g": 13.8,
+        "fat_g": 0.2,
+        "fiber_g": 2.4,
+        "sugar_g": 10.4,
+        "sodium_mg": 1,
+        "potassium_mg": 107,
+        "vitamin_c_mg": 4.6,
+        "allergens": [],
+        "health_score": 9.5
+    },
+    {
+        "id": "broccoli",
+        "name": "Broccoli",
+        "category": "vegetable",
+        "calories_per_100g": 34,
+        "protein_g": 2.8,
+        "carbs_g": 7.2,
+        "fat_g": 0.4,
+        "fiber_g": 2.6,
+        "sugar_g": 1.7,
+        "sodium_mg": 33,
+        "potassium_mg": 316,
+        "vitamin_c_mg": 89.2,
+        "allergens": [],
+        "health_score": 9.8
+    },
+    {
+        "id": "chicken_breast",
+        "name": "Chicken Breast",
+        "category": "protein",
+        "calories_per_100g": 165,
+        "protein_g": 31,
+        "carbs_g": 0,
+        "fat_g": 3.6,
+        "fiber_g": 0,
+        "sugar_g": 0,
+        "sodium_mg": 74,
+        "potassium_mg": 256,
+        "vitamin_c_mg": 0,
+        "allergens": [],
+        "health_score": 8.5
+    },
+    {
+        "id": "almond_milk",
+        "name": "Almond Milk",
+        "category": "dairy_alternative",
+        "calories_per_100g": 17,
+        "protein_g": 0.4,
+        "carbs_g": 0.6,
+        "fat_g": 1.1,
+        "fiber_g": 0.2,
+        "sugar_g": 0,
+        "sodium_mg": 71,
+        "potassium_mg": 32,
+        "vitamin_c_mg": 0,
+        "allergens": [
+            "nuts"
+        ],
+        "health_score": 7.2
+    }
+]

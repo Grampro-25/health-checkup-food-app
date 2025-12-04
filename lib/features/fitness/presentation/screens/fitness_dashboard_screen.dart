@@ -24,7 +24,7 @@ class FitnessDashboardScreen extends StatelessWidget {
             // Activity Summary Card
             _buildActivitySummaryCard(context),
             const SizedBox(height: 24),
-            
+
             // Weekly Activity Chart
             Text(
               'Weekly Activity',
@@ -33,7 +33,7 @@ class FitnessDashboardScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _buildWeeklyChart(context),
             const SizedBox(height: 24),
-            
+
             // Goals
             Text(
               'Your Goals',
@@ -42,11 +42,12 @@ class FitnessDashboardScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _buildGoalCard('Steps', 8542, 10000, Icons.directions_walk),
             const SizedBox(height: 12),
-            _buildGoalCard('Calories Burned', 450, 600, Icons.local_fire_department),
+            _buildGoalCard(
+                'Calories Burned', 450, 600, Icons.local_fire_department),
             const SizedBox(height: 12),
             _buildGoalCard('Active Minutes', 35, 60, Icons.timer),
             const SizedBox(height: 24),
-            
+
             // Workout Plans
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,7 +144,7 @@ class FitnessDashboardScreen extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.9),
+            color: Colors.white.withValues(alpha: 0.9),
             fontSize: 14,
           ),
         ),
@@ -168,7 +169,15 @@ class FitnessDashboardScreen extends StatelessWidget {
                   sideTitles: SideTitles(
                     showTitles: true,
                     getTitlesWidget: (value, meta) {
-                      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                      const days = [
+                        'Mon',
+                        'Tue',
+                        'Wed',
+                        'Thu',
+                        'Fri',
+                        'Sat',
+                        'Sun'
+                      ];
                       return Text(
                         days[value.toInt()],
                         style: const TextStyle(fontSize: 12),
@@ -188,13 +197,27 @@ class FitnessDashboardScreen extends StatelessWidget {
               ),
               borderData: FlBorderData(show: false),
               barGroups: [
-                BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 8000, color: const Color(0xFF2196F3))]),
-                BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 9500, color: const Color(0xFF2196F3))]),
-                BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 7200, color: const Color(0xFF2196F3))]),
-                BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 10200, color: const Color(0xFF2196F3))]),
-                BarChartGroupData(x: 4, barRods: [BarChartRodData(toY: 8542, color: const Color(0xFF4CAF50))]),
-                BarChartGroupData(x: 5, barRods: [BarChartRodData(toY: 6500, color: Colors.grey)]),
-                BarChartGroupData(x: 6, barRods: [BarChartRodData(toY: 5000, color: Colors.grey)]),
+                BarChartGroupData(x: 0, barRods: [
+                  BarChartRodData(toY: 8000, color: const Color(0xFF2196F3))
+                ]),
+                BarChartGroupData(x: 1, barRods: [
+                  BarChartRodData(toY: 9500, color: const Color(0xFF2196F3))
+                ]),
+                BarChartGroupData(x: 2, barRods: [
+                  BarChartRodData(toY: 7200, color: const Color(0xFF2196F3))
+                ]),
+                BarChartGroupData(x: 3, barRods: [
+                  BarChartRodData(toY: 10200, color: const Color(0xFF2196F3))
+                ]),
+                BarChartGroupData(x: 4, barRods: [
+                  BarChartRodData(toY: 8542, color: const Color(0xFF4CAF50))
+                ]),
+                BarChartGroupData(
+                    x: 5,
+                    barRods: [BarChartRodData(toY: 6500, color: Colors.grey)]),
+                BarChartGroupData(
+                    x: 6,
+                    barRods: [BarChartRodData(toY: 5000, color: Colors.grey)]),
               ],
             ),
           ),
@@ -205,7 +228,7 @@ class FitnessDashboardScreen extends StatelessWidget {
 
   Widget _buildGoalCard(String label, int current, int target, IconData icon) {
     final progress = (current / target).clamp(0.0, 1.0);
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -240,7 +263,8 @@ class FitnessDashboardScreen extends StatelessWidget {
                 value: progress,
                 minHeight: 10,
                 backgroundColor: Colors.grey.shade200,
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
+                valueColor:
+                    const AlwaysStoppedAnimation<Color>(Color(0xFF4CAF50)),
               ),
             ),
           ],
@@ -259,7 +283,7 @@ class FitnessDashboardScreen extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: color.withOpacity(0.1),
+          backgroundColor: color.withValues(alpha: 0.1),
           child: Icon(icon, color: color),
         ),
         title: Text(
