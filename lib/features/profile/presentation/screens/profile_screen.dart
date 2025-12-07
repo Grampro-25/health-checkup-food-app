@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:health_checkup_food_app/features/auth/presentation/providers/auth_providers.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(currentUserProvider);
+    final displayName = currentUser?.displayName ?? 'User';
+    final email = currentUser?.email ?? 'user@email.com';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
@@ -27,23 +33,23 @@ class ProfileScreen extends StatelessWidget {
               child: Icon(Icons.person, size: 60, color: Colors.white),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'John Doe',
-              style: TextStyle(
+            Text(
+              displayName,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              'john.doe@email.com',
+              email,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey.shade600,
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Stats Cards
             Row(
               children: [
@@ -52,12 +58,13 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: _buildStatCard('28', 'Days Active', Icons.calendar_today),
+                  child:
+                      _buildStatCard('28', 'Days Active', Icons.calendar_today),
                 ),
               ],
             ),
             const SizedBox(height: 24),
-            
+
             // Profile Options
             _buildProfileOption(
               context,
@@ -127,9 +134,12 @@ class ProfileScreen extends StatelessWidget {
                           child: const Text('Cancel'),
                         ),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             Navigator.pop(context);
-                            context.go('/login');
+                            await ref.read(signOutProvider.notifier).signOut();
+                            if (context.mounted) {
+                              context.go('/login');
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFF44336),

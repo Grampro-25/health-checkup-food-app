@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:health_checkup_food_app/features/auth/presentation/providers/auth_providers.dart';
 
-class SignupScreen extends StatefulWidget {
+class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  ConsumerState<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends ConsumerState<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -17,11 +19,12 @@ class _SignupScreenState extends State<SignupScreen> {
   final _confirmPasswordController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
-  bool _isLoading = false;
   bool _agreedToTerms = false;
 
   @override
   Widget build(BuildContext context) {
+    final signUpState = ref.watch(signUpProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -141,7 +144,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                            _isConfirmPasswordVisible =
+                                !_isConfirmPasswordVisible;
                           });
                         },
                       ),
@@ -185,7 +189,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 TextSpan(
                                   text: 'Terms & Conditions',
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.primary,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -193,7 +198,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 TextSpan(
                                   text: 'Privacy Policy',
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.primary,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -212,20 +218,37 @@ class _SignupScreenState extends State<SignupScreen> {
                     width: double.infinity,
                     height: 56,
                     child: ElevatedButton(
-                      onPressed: _isLoading || !_agreedToTerms ? null : _handleSignup,
+                      onPressed: signUpState.isLoading || !_agreedToTerms
+                          ? null
+                          : _handleSignup,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4CAF50),
                         foregroundColor: Colors.white,
                       ),
-                      child: _isLoading
+                      child: signUpState.isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
                           : const Text('Sign Up'),
                     ),
                   ),
                 ),
+
+                // Error message display
+                if (signUpState.hasError)
+                  FadeInUp(
+                    delay: const Duration(milliseconds: 800),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text(
+                        signUpState.error.toString(),
+                        style: const TextStyle(color: Colors.red),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+
                 const SizedBox(height: 24),
                 FadeInUp(
-                  delay: const Duration(milliseconds: 800),
+                  delay: const Duration(milliseconds: 900),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -246,18 +269,16 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _handleSignup() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
+    if (_formKey.currentState!.validate() && _agreedToTerms) {
+      final name = _nameController.text.trim();
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
 
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
+      await ref.read(signUpProvider.notifier).signUp(email, password, name);
 
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
+      // Check if sign up was successful
+      final signUpState = ref.read(signUpProvider);
+      if (signUpState.hasValue && !signUpState.hasError && mounted) {
         context.go('/');
       }
     }

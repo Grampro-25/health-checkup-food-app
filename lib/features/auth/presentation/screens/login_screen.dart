@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:health_checkup_food_app/features/auth/presentation/providers/auth_providers.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    final signInState = ref.watch(signInProvider);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -104,9 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {
-                        // Handle forgot password
-                      },
+                      onPressed: _handleForgotPassword,
                       child: const Text('Forgot Password?'),
                     ),
                   ),
@@ -118,20 +119,35 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     height: 56,
                     child: ElevatedButton(
-                      onPressed: _isLoading ? null : _handleLogin,
+                      onPressed: signInState.isLoading ? null : _handleLogin,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4CAF50),
                         foregroundColor: Colors.white,
                       ),
-                      child: _isLoading
+                      child: signInState.isLoading
                           ? const CircularProgressIndicator(color: Colors.white)
                           : const Text('Sign In'),
                     ),
                   ),
                 ),
+
+                // Error message display
+                if (signInState.hasError)
+                  FadeInUp(
+                    delay: const Duration(milliseconds: 600),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text(
+                        signInState.error.toString(),
+                        style: const TextStyle(color: Colors.red),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+
                 const SizedBox(height: 24),
                 FadeInUp(
-                  delay: const Duration(milliseconds: 600),
+                  delay: const Duration(milliseconds: 700),
                   child: Row(
                     children: [
                       Expanded(child: Divider(color: Colors.grey.shade300)),
@@ -148,13 +164,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
                 FadeInUp(
-                  delay: const Duration(milliseconds: 700),
+                  delay: const Duration(milliseconds: 800),
                   child: SizedBox(
                     width: double.infinity,
                     height: 56,
                     child: OutlinedButton.icon(
                       onPressed: () {
-                        // Handle Google Sign In
+                        // TODO: Implement Google Sign In
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Google Sign In coming soon!')),
+                        );
                       },
                       icon: const Icon(Icons.g_mobiledata, size: 32),
                       label: const Text('Continue with Google'),
@@ -163,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 32),
                 FadeInUp(
-                  delay: const Duration(milliseconds: 800),
+                  delay: const Duration(milliseconds: 900),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -185,18 +205,42 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
 
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 2));
+      await ref.read(signInProvider.notifier).signIn(email, password);
 
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
+      // Check if sign in was successful
+      final signInState = ref.read(signInProvider);
+      if (signInState.hasValue && !signInState.hasError && mounted) {
         context.go('/');
+      }
+    }
+  }
+
+  void _handleForgotPassword() async {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter your email address first')),
+      );
+      return;
+    }
+
+    try {
+      await ref
+          .read(passwordResetProvider.notifier)
+          .sendPasswordResetEmail(email);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password reset email sent!')),
+        );
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${error.toString()}')),
+        );
       }
     }
   }

@@ -13,11 +13,32 @@ import 'package:health_checkup_food_app/features/medication/presentation/screens
 import 'package:health_checkup_food_app/features/fitness/presentation/screens/fitness_dashboard_screen.dart';
 import 'package:health_checkup_food_app/features/profile/presentation/screens/profile_screen.dart';
 import 'package:health_checkup_food_app/features/profile/presentation/screens/settings_screen.dart';
+import 'package:health_checkup_food_app/features/auth/presentation/providers/auth_providers.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authStateProvider);
+
   return GoRouter(
     initialLocation: '/onboarding',
     debugLogDiagnostics: true,
+    redirect: (context, state) {
+      final isAuthenticated = authState.value != null;
+      final isAuthRoute = state.matchedLocation == '/login' ||
+                         state.matchedLocation == '/signup' ||
+                         state.matchedLocation == '/onboarding';
+
+      // If user is not authenticated and trying to access protected route
+      if (!isAuthenticated && !isAuthRoute) {
+        return '/login';
+      }
+
+      // If user is authenticated and trying to access auth routes
+      if (isAuthenticated && isAuthRoute && state.matchedLocation != '/onboarding') {
+        return '/';
+      }
+
+      return null;
+    },
     routes: [
       // Auth Routes
       GoRoute(
